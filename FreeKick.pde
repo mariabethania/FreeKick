@@ -48,7 +48,7 @@ void setup() {
   soccer = loadImage("soccerBall.jpg");
   c = new Cube(W, H, W);
   pxLimit = width*0.5;
-  p1 = new Plane(30, 30, 60);
+  p1 = new Plane(width*0.02, width*0.02, width*0.04);
   p2 = new Plane(60, 60, 60);
   line1 = new Plane(1, 1, c.d);
   line2 = new Plane(1, 1, c.d);
@@ -101,9 +101,9 @@ void draw() {
   //translate(-width/2, -height/2, -width);
   rotateY(yRotate);
 
-  translate(-width/2, -40, -760);
+  translate(-width/2, -height*0.025, -(height*0.95));
   //if (yRotate < 100) {
-  translate(yRotate*445, yRotate*20, yRotate*485);
+  translate(yRotate*(width*0.32), yRotate*(height*0.02), yRotate*(width*0.34));
   //} else 
   //if (yRotate > 100) {
   //translate(-yRotate*500,0,-yRotate*500);
@@ -196,7 +196,7 @@ translate(-yRotate*510,0,-yRotate*480);
   text(scoreAI, width*0.25, height*0.35);
   fill(0, 0, 255);
   text(score, width*0.75, height*0.35);
-  popMatrix();
+popMatrix();
   //text(round(px), width*0.5, height*0.25);
   p1.add(px, py, pz);
   p2.add(px, py, pz);

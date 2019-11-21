@@ -22,7 +22,7 @@ class Ball {
     vel= new PVector(0, 0, 0); 
     acc = new PVector(0, 0, 0);
     grv = new PVector(0, 0, 0);
-    rad = 20;
+    rad = height*0.0275;
     noStroke();
     noFill();
     //fill(255,255,0);
@@ -37,7 +37,7 @@ class Ball {
       && ball.pos.y+ball.rad >= p1.pos.y-p1.ph/2 
       && ball.pos.y-ball.rad <= p1.pos.y+p1.ph/2) 
     {
-      vel.z = -1*abs(velZ*0.2);//-1*abs((pmouseY - mouseY)/8);
+      vel.z = -1*abs(velZ*0.35);//-1*abs((pmouseY - mouseY)/8);
 //println(vel.z);
       acc.z = 0.02;
       //acc.y = -1*abs(velZ/12);//-1*abs((pmouseY - mouseY)/8);
