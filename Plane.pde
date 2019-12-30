@@ -29,7 +29,6 @@ class Plane {
     pushMatrix();
     translate(pos.x,pos.y,pos.z);
     //noStroke();
-    
     box(pw,ph,pd);
     popMatrix();
   }

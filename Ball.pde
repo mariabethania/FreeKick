@@ -1,7 +1,7 @@
 class Ball {
   //float x;
   //float y;
-  float rad;
+  float rad = height*0.0275;
   float zRotate;
   float xRotate;
   PVector pos;
@@ -22,7 +22,6 @@ class Ball {
     vel= new PVector(0, 0, 0); 
     acc = new PVector(0, 0, 0);
     grv = new PVector(0, 0, 0);
-    rad = height*0.0275;
     noStroke();
     noFill();
     //fill(255,255,0);
@@ -31,6 +30,8 @@ class Ball {
   }
 
   void kickKey(float velZ) {
+    goalSound.pause();
+    goalSound.rewind();
     if (ball.pos.z+(ball.rad) >= p1.pos.z-(p1.pd/2)
       && ball.pos.x+ball.rad >= p1.pos.x-p1.pw/2 
       && ball.pos.x-ball.rad <= p1.pos.x+p1.pw/2 
@@ -85,7 +86,7 @@ class Ball {
     //    }
     // Y edges
     if (pos.y+(rad) >= c.y+(c.h/2)) {
-      pos.y = c.y+(c.h/2)-rad;
+      pos.y = c.y+(c.h/2)-(rad);
       acc.y *= -0.75;//= -1 * (abs(acc.y*0.65));
       int num = round(random(1, 4));
       //if (vel.y < 0.201 && vel.y > -0.201) {
@@ -286,15 +287,13 @@ class Ball {
       && pos.y-rad > goal1.pos.y-(goal1.gh)) {
       scoreAI++;
     }
-    goalSound.pause();
     Oooh.pause();
     ball.pos.x = c.x;
-    ball.pos.y = (c.y+c.h/2)-(rad+1);
+    ball.pos.y = (c.y+c.h/2);
     ball.pos.z = c.z+(c.d*0.5)-(rad*4)-1;  
     ball.vel.mult(0);//c.z+(c.d/2)+(p1.pd
     ball.acc.mult(0);
     //ball.grv.mult(0);
-    goalSound.rewind();
     Oooh.rewind();
     //ball.volGoal = 0;
     ball.trueGoal = false;

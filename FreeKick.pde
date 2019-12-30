@@ -1,3 +1,4 @@
+// Este es el Mero Mero
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
@@ -6,6 +7,8 @@ import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
 
 import peasy.*;
+
+PImage field;
 
 float x;
 float y;
@@ -29,7 +32,7 @@ int scoreAI, score = 0;
 
 Timer timer;
 Ball ball;
-Plane line1, line2, line3, line4, line5, line6, line7, line8, p1,p2, goalie;
+Plane line1, line2, line3, line4, line5, line6, line7, line8, p1,p2, goalie,shadow;
 Cube c;
 Goal goal1, goal2;
 PeasyCam cam;
@@ -44,12 +47,15 @@ void setup() {
   //frameRate(16);
   W = width;
   H = height;
+  field = loadImage("field2.jpg");
+  field.resize(int(width*1.1),int(width*1.07));
   timer = new Timer(1);
   soccer = loadImage("soccerBall.jpg");
   c = new Cube(W, H, W);
   pxLimit = width*0.5;
   p1 = new Plane(width*0.02, width*0.02, width*0.04);
   p2 = new Plane(60, 60, 60);
+  shadow = new Plane(width*0.02, 2, width*0.04);
   line1 = new Plane(1, 1, c.d);
   line2 = new Plane(1, 1, c.d);
   line3 = new Plane(c.w, 1, 1);
@@ -59,7 +65,7 @@ void setup() {
   line7 = new Plane(1, 1, c.d);
   line8 = new Plane(1, 1, c.d);
   goalie = new Plane(100, 100, 30);//c.z+(c.d/2)-35
-  ball = new Ball(c.x, c.y+(c.h/2)-21, c.z+(c.d*0.5)-(((W/64)*4)+1), soccer);
+  ball = new Ball(c.x, c.y+(c.h/2)-21, c.z+(c.d*0.5)-(((W/64)*4)), soccer);
   goal1 = new Goal(width*0.5, width*0.25, width*0.05);
   goal2 = new Goal(width*0.5, width*0.25, width*0.05);
   arrows = new boolean[11];
@@ -76,7 +82,7 @@ void setup() {
   goalSound = minim.loadFile("GritoDeGol.mp3", 1024);
   Oooh = minim.loadFile("OooHStereo.mp3", 1024);
   crowd = minim.loadFile("Crowd.mp3");
-  crowd.setGain(-3);
+  crowd.shiftGain(-20,-5,1000);
   crowd.loop();
   px = c.x;
   py = c.y+(c.h*0.5)-(p1.ph*0.5);
@@ -92,7 +98,7 @@ void setup() {
 
 void draw() {
   background(0);
-  translate(width/2, 0);
+  translate(width*0.5, 0);
   //fill(255, 255, 0);
   //sphere(20);
   lights();
@@ -110,11 +116,12 @@ void draw() {
   //}
 
   pushMatrix();
-  translate(0, c.h, width/2);
+  translate(-width*0.057, c.h, width*0.535);
   rotateX(PI*1.5);
   noStroke();
   fill(0, 120, 0);
-  rect(c.x-(c.w*0.5), c.y-(c.h*0.75), c.x+(c.w*0.5), c.y+(c.d));
+  image(field,0,0);
+  //rect(c.x-(c.w*0.5), c.y-(c.h*0.75), c.x+(c.w*0.5), c.y+(c.d));
   popMatrix();
   if (arrows[0]) {
     if (kickLimit < 120) {
@@ -188,10 +195,10 @@ void draw() {
     }
   }
 pushMatrix();
-rotateY(-yRotate*1.1);
-translate(-yRotate*510,0,-yRotate*480);
+rotateY(-yRotate);
+translate(-yRotate*600,0,-yRotate*600);
   textAlign(CENTER);
-  textSize(64);
+  textSize(80);
   fill(255, 0, 0);
   text(scoreAI, width*0.25, height*0.35);
   fill(0, 0, 255);
@@ -200,6 +207,7 @@ popMatrix();
   //text(round(px), width*0.5, height*0.25);
   p1.add(px, py, pz);
   p2.add(px, py, pz);
+  shadow.add(px,c.y+c.h*0.5,pz);
   line1.add(px-(p1.pw*0.5), c.y+c.h*0.5, c.z);
   line2.add(px+(p1.pw*0.5), c.y+c.h*0.5, c.z);
   line3.add(c.x, c.y+c.h*0.5, pz-p1.pd*0.5);
@@ -225,12 +233,14 @@ popMatrix();
   rect(width*0.75, height*0.8, 15, kickLimit);
   popMatrix();
   p1.showPlane();
-  stroke(255,50);
+  fill(0,100);
+  shadow.showPlane();
+  stroke(0,150,255);
   strokeWeight(0.5);
   noFill();
   p2.showPlane();
   noStroke();
-  fill(150);
+  fill(0,150,255);
   line1.showPlane();
   line2.showPlane();
   line3.showPlane();
@@ -240,9 +250,9 @@ popMatrix();
   line7.showPlane();
   line8.showPlane();
   c.display();
-  goal1.addGoal(c.x, c.y+(c.h*0.5), c.z-(c.d*0.5));
+  goal1.addGoal(c.x, c.y+(c.h*0.5), c.z-(c.d*0.49));
   //stroke(255,50);
-  goal2.addGoal(c.x, c.y+(c.h*0.5), c.z+(c.d*0.5)+goal2.gd);
+  goal2.addGoal(c.x, c.y+(c.h*0.5), c.z+(c.d*0.49)+goal2.gd);
 
   noStroke();
   goalie.move(moveGoalieX(), moveGoalieY());
