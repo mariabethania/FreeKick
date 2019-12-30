@@ -83,6 +83,8 @@ void setup() {
   Oooh = minim.loadFile("OooHStereo.mp3", 1024);
   crowd = minim.loadFile("Crowd.mp3");
   crowd.shiftGain(-20,-5,1000);
+  //crowd.setGain(0);
+  //crowd.shiftGain(-20,0,3000);
   crowd.loop();
   px = c.x;
   py = c.y+(c.h*0.5)-(p1.ph*0.5);
@@ -94,6 +96,7 @@ void setup() {
   goalieX = width*0.5;
   goalieY = height*0.5;
   pyLimit = c.y+(c.h*0.5)-(p1.ph*0.99);//H-(p1.ph*0.25);
+  ball.reset();
 }
 
 void draw() {
